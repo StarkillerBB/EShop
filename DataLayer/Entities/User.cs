@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Entities
 {
-    internal class Customer
+    public class User
     {
+        public int ID { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public string FirstName { get; set; }
@@ -17,7 +18,8 @@ namespace DataLayer.Entities
         public string Address { get; set; }
         public string ZipCode { get; set; }
 
-
-
+        public int RoleId { get; set; }
+        public Roles Role { get; set; }
+        public List<Cart> Carts { get; set; }
     }
 }

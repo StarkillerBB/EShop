@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Entities
 {
-    internal class Cart
+    public class Cart
     {
+        public int ID { get; set; }
+        public int ProductId { get; set; }
+        public int UserId { get; set; }
+        public int Amount { get; set; }
+
+        public User User { get; set; }
+        public List<Product> Products { get; set; }
     }
 }

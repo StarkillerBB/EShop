@@ -15,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
-    <ProjectReference Include="..\EShop\EShop.csproj" />
   </ItemGroup>
 
 </Project>

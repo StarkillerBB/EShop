@@ -9,11 +9,11 @@ namespace DataLayer.Entities
     public class Cart
     {
         public int ID { get; set; }
-        public int ProductId { get; set; }
-        public int UserId { get; set; }
         public int Amount { get; set; }
 
+        public int ProductId { get; set; }
+        public int UserId { get; set; }
         public User User { get; set; }
-        public List<Product> Products { get; set; }
+        public Product Product { get; set; }
     }
 }

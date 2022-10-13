@@ -14,6 +14,8 @@ namespace DataLayer
         public DbSet<User> User { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<Product> Product { get; set; }
+        public DbSet<Types> Type { get; set; }
+        public DbSet<Roles> Role { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -24,6 +26,11 @@ namespace DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            modelBuilder.Entity<Cart>()
+                .HasOne<Product>(x => x.Product)
+                .WithMany(x => x.Carts)
+                .HasForeignKey(x => x.ProductId);
 
             #region Data Seeding
 

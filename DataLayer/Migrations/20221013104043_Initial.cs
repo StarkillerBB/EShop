@@ -9,7 +9,7 @@ namespace DataLayer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Roles",
+                name: "Role",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -18,11 +18,11 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.ID);
+                    table.PrimaryKey("PK_Role", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Types",
+                name: "Type",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
@@ -31,7 +31,7 @@ namespace DataLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Types", x => x.ID);
+                    table.PrimaryKey("PK_Type", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -48,15 +48,16 @@ namespace DataLayer.Migrations
                     Mail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SoftDelete = table.Column<bool>(type: "bit", nullable: false),
                     RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_User_Roles_RoleId",
+                        name: "FK_User_Role_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Role",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -70,15 +71,16 @@ namespace DataLayer.Migrations
                     ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Price = table.Column<decimal>(type: "Decimal(18,2)", nullable: false),
                     ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SoftDelete = table.Column<bool>(type: "bit", nullable: false),
                     TypeID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Product_Types_TypeID",
+                        name: "FK_Product_Type_TypeID",
                         column: x => x.TypeID,
-                        principalTable: "Types",
+                        principalTable: "Type",
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -89,13 +91,19 @@ namespace DataLayer.Migrations
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cart", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Cart_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Cart_User_UserId",
                         column: x => x.UserId,
@@ -104,39 +112,15 @@ namespace DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "CartProduct",
-                columns: table => new
-                {
-                    CartsID = table.Column<int>(type: "int", nullable: false),
-                    ProductsID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CartProduct", x => new { x.CartsID, x.ProductsID });
-                    table.ForeignKey(
-                        name: "FK_CartProduct_Cart_CartsID",
-                        column: x => x.CartsID,
-                        principalTable: "Cart",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CartProduct_Product_ProductsID",
-                        column: x => x.ProductsID,
-                        principalTable: "Product",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_Cart_ProductId",
+                table: "Cart",
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cart_UserId",
                 table: "Cart",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CartProduct_ProductsID",
-                table: "CartProduct",
-                column: "ProductsID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_TypeID",
@@ -153,9 +137,6 @@ namespace DataLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CartProduct");
-
-            migrationBuilder.DropTable(
                 name: "Cart");
 
             migrationBuilder.DropTable(
@@ -165,10 +146,10 @@ namespace DataLayer.Migrations
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "Types");
+                name: "Type");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Role");
         }
     }
 }

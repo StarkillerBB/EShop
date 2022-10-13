@@ -13,37 +13,45 @@ namespace ServiceLayer.Repository
     {
         private readonly EShopContext _eShopContext;
 
-        public Repo(EShopContext eShopContext)
+        public Repo()
         {
-            _eShopContext = eShopContext;
+            _eShopContext = new EShopContext();
+        }
+        #region Generic
+        public void AddEntry<T>(T entry) where T : class
+        {
+            _eShopContext.Add(entry);
+            _eShopContext.SaveChanges();
         }
 
+        public void UpdateUser<T>(T entry) where T : class
+        {
+
+            _eShopContext.Update(entry);
+            _eShopContext.SaveChanges();
+        }
+        public void DeleteUser<T>(T entry) where T : class
+        {
+            _eShopContext.Remove(entry);
+            _eShopContext.SaveChanges();
+
+        }
+        #endregion
 
         #region User
 
-        public void AddUser(User user)
+        public User GetUserLogin(string username, string password)
         {
-            _eShopContext.Add(user);
-            _eShopContext.SaveChanges();
+            User localUser = _eShopContext.User.Where(x => x.Username == username).FirstOrDefault();
+
+            if (localUser != null && localUser.Password == password)
+            {
+                return localUser;
+            }
+
+            return null;
         }
 
-        public void UpdateUser(User user)
-        {
-            User localUser = _eShopContext.User.Where(x => x.ID == user.ID).FirstOrDefault();
-
-            localUser.FirstName = user.FirstName;
-            localUser.LastName = user.LastName;
-            localUser.Mail = user.Mail;
-            localUser.Phone = user.Phone;
-            localUser.Password = user.Password;
-            localUser.Username = user.Username;
-            localUser.Address = user.Address;
-            localUser.ZipCode = user.ZipCode;
-            localUser.RoleId = user.RoleId;
-
-            _eShopContext.Update(localUser);
-            _eShopContext.SaveChanges();
-        }
         #endregion
 
         #region Cart
@@ -51,14 +59,17 @@ namespace ServiceLayer.Repository
         #endregion
 
         #region Product
-
+        public List<Product> GetAllProducts() => _eShopContext.Product.Where(x => x.SoftDelete == false).ToList();
         #endregion
 
         #region Types
 
+        public List<Types> GetAllTypes() => _eShopContext.Type.ToList();
         #endregion
 
         #region Roles
+
+        public List<Roles> GetAllRoles() => _eShopContext.Role.ToList();
 
         #endregion
     }

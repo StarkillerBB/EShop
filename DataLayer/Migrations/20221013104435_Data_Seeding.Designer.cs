@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EShopContext))]
-    [Migration("20221012110426_Data_Seeding")]
+    [Migration("20221013104435_Data_Seeding")]
     partial class Data_Seeding
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,21 +22,6 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CartProduct", b =>
-                {
-                    b.Property<int>("CartsID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartsID", "ProductsID");
-
-                    b.HasIndex("ProductsID");
-
-                    b.ToTable("CartProduct");
-                });
 
             modelBuilder.Entity("DataLayer.Entities.Cart", b =>
                 {
@@ -56,6 +41,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -111,6 +98,9 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("SoftDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int>("TypeID")
                         .HasColumnType("int");
 
@@ -127,6 +117,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath1",
                             Price = 1100.75m,
                             ProductName = "GPU1",
+                            SoftDelete = false,
                             TypeID = 1
                         },
                         new
@@ -135,6 +126,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath2",
                             Price = 1234.55m,
                             ProductName = "GPU2",
+                            SoftDelete = false,
                             TypeID = 1
                         },
                         new
@@ -143,6 +135,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath3",
                             Price = 8934.10m,
                             ProductName = "CPU1",
+                            SoftDelete = false,
                             TypeID = 2
                         },
                         new
@@ -151,6 +144,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath4",
                             Price = 9313m,
                             ProductName = "CPU2",
+                            SoftDelete = false,
                             TypeID = 2
                         },
                         new
@@ -159,6 +153,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath5",
                             Price = 110.75m,
                             ProductName = "Keyboard1",
+                            SoftDelete = false,
                             TypeID = 3
                         },
                         new
@@ -167,6 +162,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath6",
                             Price = 500m,
                             ProductName = "Keyboard2",
+                            SoftDelete = false,
                             TypeID = 3
                         },
                         new
@@ -175,6 +171,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath7",
                             Price = 50m,
                             ProductName = "Mouse1",
+                            SoftDelete = false,
                             TypeID = 4
                         },
                         new
@@ -183,6 +180,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath8",
                             Price = 100m,
                             ProductName = "Mouse2",
+                            SoftDelete = false,
                             TypeID = 4
                         },
                         new
@@ -191,6 +189,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath9",
                             Price = 200m,
                             ProductName = "Cooling1",
+                            SoftDelete = false,
                             TypeID = 5
                         },
                         new
@@ -199,6 +198,7 @@ namespace DataLayer.Migrations
                             ImagePath = "ImagePath10",
                             Price = 350.50m,
                             ProductName = "Cooling2",
+                            SoftDelete = false,
                             TypeID = 5
                         });
                 });
@@ -217,7 +217,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
 
                     b.HasData(
                         new
@@ -246,7 +246,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Types");
+                    b.ToTable("Type");
 
                     b.HasData(
                         new
@@ -311,6 +311,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("SoftDelete")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -337,6 +340,7 @@ namespace DataLayer.Migrations
                             Password = "Bodil123456",
                             Phone = "88888888",
                             RoleId = 1,
+                            SoftDelete = false,
                             Username = "Bodil",
                             ZipCode = "1000"
                         },
@@ -350,33 +354,27 @@ namespace DataLayer.Migrations
                             Password = "Hans123456",
                             Phone = "44444444",
                             RoleId = 2,
+                            SoftDelete = false,
                             Username = "Hans",
                             ZipCode = "5000"
                         });
                 });
 
-            modelBuilder.Entity("CartProduct", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Cart", null)
-                        .WithMany()
-                        .HasForeignKey("CartsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Cart", b =>
                 {
+                    b.HasOne("DataLayer.Entities.Product", "Product")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataLayer.Entities.User", "User")
                         .WithMany("Carts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -401,6 +399,11 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Product", b =>
+                {
+                    b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Roles", b =>

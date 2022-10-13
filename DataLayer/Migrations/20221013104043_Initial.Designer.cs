@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(EShopContext))]
-    [Migration("20221012110359_Initial")]
+    [Migration("20221013104043_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,21 +22,6 @@ namespace DataLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("CartProduct", b =>
-                {
-                    b.Property<int>("CartsID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartsID", "ProductsID");
-
-                    b.HasIndex("ProductsID");
-
-                    b.ToTable("CartProduct");
-                });
 
             modelBuilder.Entity("DataLayer.Entities.Cart", b =>
                 {
@@ -56,6 +41,8 @@ namespace DataLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -81,6 +68,9 @@ namespace DataLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("SoftDelete")
+                        .HasColumnType("bit");
+
                     b.Property<int>("TypeID")
                         .HasColumnType("int");
 
@@ -105,7 +95,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Types", b =>
@@ -122,7 +112,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Types");
+                    b.ToTable("Type");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.User", b =>
@@ -160,6 +150,9 @@ namespace DataLayer.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("SoftDelete")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -176,28 +169,21 @@ namespace DataLayer.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("CartProduct", b =>
-                {
-                    b.HasOne("DataLayer.Entities.Cart", null)
-                        .WithMany()
-                        .HasForeignKey("CartsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DataLayer.Entities.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("DataLayer.Entities.Cart", b =>
                 {
+                    b.HasOne("DataLayer.Entities.Product", "Product")
+                        .WithMany("Carts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DataLayer.Entities.User", "User")
                         .WithMany("Carts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Product");
 
                     b.Navigation("User");
                 });
@@ -222,6 +208,11 @@ namespace DataLayer.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Product", b =>
+                {
+                    b.Navigation("Carts");
                 });
 
             modelBuilder.Entity("DataLayer.Entities.Roles", b =>

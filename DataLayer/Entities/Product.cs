@@ -14,6 +14,7 @@ namespace DataLayer.Entities
         [Column(TypeName = "Decimal(18,2)")]
         public decimal Price { get; set; }
         public string ImagePath { get; set; }
+        public bool SoftDelete { get; set; }
 
         public int TypeID { get; set; }
         public Types Type { get; set; }

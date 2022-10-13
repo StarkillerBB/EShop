@@ -17,6 +17,7 @@ namespace DataLayer.Entities
         public string Mail { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
+        public bool SoftDelete { get; set; }
 
         public int RoleId { get; set; }
         public Roles Role { get; set; }

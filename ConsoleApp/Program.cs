@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using ServiceLayer.Repository;
 using ServiceLayer.Interface;
+using DataLayer.Entities;
 
 namespace ConsoleApp
 {
@@ -37,6 +38,7 @@ namespace ConsoleApp
                     DisplayAllProducts();
                     return;
                 case "2":
+                    AddProduct();
                     return;
                 case "3":
                     return;
@@ -50,10 +52,39 @@ namespace ConsoleApp
         private static void DisplayAllProducts()
         {
             Console.Clear();
+
             foreach (var item in _repo.GetAllProducts().OrderBy(x => x.TypeID))
             {
                 Console.WriteLine(item.ProductName + " - " + item.Price + "kr. - " + item.TypeID);
             }
         }
+        private static void AddProduct()
+        {
+            Console.Clear();
+
+            Console.WriteLine("Add a Product Name:");
+            string productName = Console.ReadLine();
+
+            Console.WriteLine("Add a price:");
+            decimal price = Convert.ToDecimal(Console.ReadLine());
+
+            Console.WriteLine("Add an image path (Optional, keep empty if no picture is wanted)");
+            string imagePath = Console.ReadLine();
+
+            Product product = new Product{ ProductName = productName, Price = price, ImagePath = imagePath };
+            _repo.AddEntry(product);
+        }
+
+        private static void RemoveProduct()
+        {
+            int writeCounter = 0;
+            int caseCounter = 0;
+            List<Product> products = _repo.GetAllProducts();
+            Console.Clear();
+
+            Console.WriteLine("Choose a product to remove:");
+        }
+
+
     }
 }

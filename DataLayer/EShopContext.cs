@@ -31,6 +31,9 @@ namespace DataLayer
                 .HasOne<Product>(x => x.Product)
                 .WithMany(x => x.Carts)
                 .HasForeignKey(x => x.ProductId);
+            modelBuilder.Entity<Product>()
+                .Property(x => x.SoftDelete)
+                .HasDefaultValue(false);
 
             #region Data Seeding
 

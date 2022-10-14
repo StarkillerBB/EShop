@@ -11,12 +11,16 @@ namespace ServiceLayer.Interface
     {
 
         void AddEntry<T>(T entry) where T : class;
-        void UpdateUser<T>(T entry) where T : class;
-        void DeleteUser<T>(T entry) where T : class;
+        void UpdateEntry<T>(T entry) where T : class;
+        void DeleteEntry<T>(T entry) where T : class;
 
         List<Product> GetAllProducts();
+        Product GetProductById(int id);
         List<Types> GetAllTypes();
         List<Roles> GetAllRoles();
+
+        List<Product> GetAllProductsWithPagination(int pageStart);
+        List<Product> GetProductByNameSearch(string search);
 
     }
 }

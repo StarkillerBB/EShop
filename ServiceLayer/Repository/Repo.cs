@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ServiceLayer.Interface;
 using DataLayer;
 using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServiceLayer.Repository
 {
@@ -24,13 +25,13 @@ namespace ServiceLayer.Repository
             _eShopContext.SaveChanges();
         }
 
-        public void UpdateUser<T>(T entry) where T : class
+        public void UpdateEntry<T>(T entry) where T : class
         {
 
             _eShopContext.Update(entry);
             _eShopContext.SaveChanges();
         }
-        public void DeleteUser<T>(T entry) where T : class
+        public void DeleteEntry<T>(T entry) where T : class
         {
             _eShopContext.Remove(entry);
             _eShopContext.SaveChanges();
@@ -59,7 +60,10 @@ namespace ServiceLayer.Repository
         #endregion
 
         #region Product
-        public List<Product> GetAllProducts() => _eShopContext.Product.Where(x => x.SoftDelete == false).ToList();
+        public List<Product> GetAllProducts() => _eShopContext.Product.Where(x => x.SoftDelete == false).Include(x => x.Type).ToList();
+        public List<Product> GetAllProductsWithPagination(int pageStart) => _eShopContext.Product.Where(x => x.SoftDelete == false).Include(x => x.Type).OrderBy(x => x.TypeID).Pagination(pageStart, 3).ToList();
+        public Product GetProductById(int id) => _eShopContext.Product.Where(x => x.ID == id).FirstOrDefault();
+        public List<Product> GetProductByNameSearch(string search) => _eShopContext.Product.Where(x => x.ProductName.Contains(search)).Include(x => x.Type).OrderBy(x => x.TypeID).ToList();
         #endregion
 
         #region Types
@@ -72,5 +76,26 @@ namespace ServiceLayer.Repository
         public List<Roles> GetAllRoles() => _eShopContext.Role.ToList();
 
         #endregion
+
+        #region Paging
+
+        
+        #endregion
+    }
+
+    public static class Paging
+    {
+        public static IQueryable<T> Pagination<T>(this IQueryable<T> query, int pageNumZeroStart, int pageSize)
+        {
+            if (pageSize == 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(pageSize), "pageSize cannot be zero.");
+            }
+            if (pageNumZeroStart != 0)
+            {
+                query = query.Skip(pageNumZeroStart * pageSize);
+            }
+            return query.Take(pageSize);
+        }
     }
 }

@@ -17,9 +17,10 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-
-
-            MainMenu();            
+            while (true)
+            {
+                MainMenu();
+            }
         }
 
         private static void MainMenu()
@@ -27,9 +28,10 @@ namespace ConsoleApp
             Console.Clear();
             Console.WriteLine("Choose an option:");
             Console.WriteLine("1) See all products");
-            Console.WriteLine("2) Add a product");
-            Console.WriteLine("3) Remove a product");
-            Console.WriteLine("4) Exit");
+            Console.WriteLine("2) See all products with pagination");
+            Console.WriteLine("3) Search on a product.");
+            Console.WriteLine("4) Add a product");
+            Console.WriteLine("5) Remove a product");
             Console.Write("\r\nSelect an option: ");
 
             switch (Console.ReadLine())
@@ -38,11 +40,16 @@ namespace ConsoleApp
                     DisplayAllProducts();
                     return;
                 case "2":
-                    AddProduct();
+                    DisplayAllProductsWithPaging();
                     return;
                 case "3":
+                    DisplayProductWithSearch();
                     return;
                 case "4":
+                    AddProduct();
+                    return;
+                case "5":
+                    RemoveProduct();
                     return;
                 default:
                     return;
@@ -55,9 +62,41 @@ namespace ConsoleApp
 
             foreach (var item in _repo.GetAllProducts().OrderBy(x => x.TypeID))
             {
-                Console.WriteLine(item.ProductName + " - " + item.Price + "kr. - " + item.TypeID);
+                Console.WriteLine("ID: " + item.ID + item.ProductName + " - " + item.Price + "kr. - " + item.Type.TypeName);
             }
+            Console.WriteLine("Press enter to go back to menu");
+            Console.ReadLine();
         }
+
+        private static void DisplayAllProductsWithPaging()
+        {
+            Console.Clear();
+            Console.WriteLine("Write the page you want to go to.");
+            List<Product> products = _repo.GetAllProductsWithPagination(Convert.ToInt32(Console.ReadLine()));
+
+            foreach (var item in products)
+            {
+                Console.WriteLine(item.ProductName + " - " + item.Price + "kr. - " + item.Type.TypeName);
+            }
+            Console.WriteLine("Press enter to go back to menu");
+            Console.ReadLine();
+
+        }
+
+        private static void DisplayProductWithSearch()
+        {
+            Console.Clear();
+            Console.WriteLine("Write the name you want to search on");
+            List<Product> products = _repo.GetProductByNameSearch(Console.ReadLine());
+
+            foreach (var item in products)
+            {
+                Console.WriteLine(item.ProductName + " - " + item.Price + "kr. - " + item.Type.TypeName);
+            }
+            Console.WriteLine("Press enter to go back to menu");
+            Console.ReadLine();
+        }
+
         private static void AddProduct()
         {
             Console.Clear();
@@ -71,18 +110,26 @@ namespace ConsoleApp
             Console.WriteLine("Add an image path (Optional, keep empty if no picture is wanted)");
             string imagePath = Console.ReadLine();
 
-            Product product = new Product{ ProductName = productName, Price = price, ImagePath = imagePath };
+            Console.WriteLine("Add the ID of the type you want it to be");
+            int typeId = Convert.ToInt32(Console.ReadLine());
+
+            Product product = new Product{ ProductName = productName, Price = price, ImagePath = imagePath, TypeID = typeId };
             _repo.AddEntry(product);
+
+            Console.WriteLine("Product has been created \nPress enter to go back to menu");
+            Console.ReadLine();
         }
 
         private static void RemoveProduct()
         {
-            int writeCounter = 0;
-            int caseCounter = 0;
-            List<Product> products = _repo.GetAllProducts();
             Console.Clear();
 
-            Console.WriteLine("Choose a product to remove:");
+            Console.WriteLine("Remove a product by the ID:");
+
+            _repo.DeleteEntry(_repo.GetProductById(Convert.ToInt32(Console.ReadLine())));
+
+            Console.WriteLine("Product has been soft deleted \nPress enter to go back to menu");
+            Console.ReadLine();
         }
 
 

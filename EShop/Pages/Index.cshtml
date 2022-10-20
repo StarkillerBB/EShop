@@ -4,7 +4,18 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    @foreach (var item in Model.Products)
+    {
+        <div class="col-4">
+            <form class="card" style="width: 18rem;">
+                <img class="card-img-top" src="@item.ImagePath" alt="Image coming soon">
+                <div class="card-body">
+                    <h5 class="card-title">@item.ProductName</h5>
+                    <p class="card-text">@item.Price kr.</p>
+                    <input type="submit" value="Add to cart" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    }
 </div>

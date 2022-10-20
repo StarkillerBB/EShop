@@ -1,7 +1,21 @@
+using DataLayer;
+using Microsoft.EntityFrameworkCore;
+using ServiceLayer.Interface;
+using ServiceLayer.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IGenericServices, GenericServices>();
+builder.Services.AddScoped<IProductServices, ProductServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IRepo, Repo>();
+
+builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(10));
+
+builder.Services.AddDbContext<EShopContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("EShopConn") ?? throw new InvalidOperationException("Connection string 'EShopConn' not found.")));
 
 var app = builder.Build();
 
@@ -15,6 +29,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
 
 app.UseRouting();
 

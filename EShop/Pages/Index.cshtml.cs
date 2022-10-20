@@ -1,20 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataLayer.Entities;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ServiceLayer.Interface;
 
 namespace EShop.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        private readonly IProductServices _product;
+
+        public IndexModel(IProductServices product)
         {
-            _logger = logger;
+            _product = product;
         }
+
+        [BindProperty]
+        public List<Product> Products { get; set; }
 
         public void OnGet()
         {
-
+            Products = _product.GetAllProducts();
         }
     }
 }

@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Interface
 {
-    public interface IRepo
+    public interface IUserServices
     {
-        List<Types> GetAllTypes();
-        List<Roles> GetAllRoles();
-
+        User GetUserLogin(string username, string password);
     }
 }

@@ -11,7 +11,8 @@ namespace ServiceLayer.Interface
     {
         List<Product> GetAllProducts();
         Product GetProductById(int id);
-        List<Product> GetAllProductsWithPagination(int pageStart);
+        List<Product> GetAllProductsWithPagination(int currentPage, int pageSize);
         List<Product> GetProductByNameSearch(string search);
+        int GetCount();
     }
 }

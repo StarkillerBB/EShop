@@ -18,9 +18,16 @@ namespace EShop.Pages
         [BindProperty]
         public List<Product> Products { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
+        public int Count { get; set; }
+        public int PageSize { get; set; } = 5; //TODO : Change pagesize
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+
         public void OnGet()
         {
-            Products = _product.GetAllProducts();
+            Products = _product.GetAllProductsWithPagination(CurrentPage, PageSize);
+            Count = _product.GetCount();
         }
     }
 }

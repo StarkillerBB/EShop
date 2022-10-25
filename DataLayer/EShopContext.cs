@@ -53,16 +53,16 @@ namespace DataLayer
                 new Types { ID = 5, TypeName = "Cooling" });
 
             modelBuilder.Entity<Product>().HasData(
-                new Product { ID = 1, ProductName = "GPU1", Price = 1100.75M, ImagePath = "ImagePath1", TypeID = 1 },
-                new Product { ID = 2, ProductName = "GPU2", Price = 1234.55M, ImagePath = "ImagePath2", TypeID = 1 },
-                new Product { ID = 3, ProductName = "CPU1", Price = 8934.10M, ImagePath = "ImagePath3", TypeID = 2 },
-                new Product { ID = 4, ProductName = "CPU2", Price = 9313M, ImagePath = "ImagePath4", TypeID = 2 },
-                new Product { ID = 5, ProductName = "Keyboard1", Price = 110.75M, ImagePath = "ImagePath5", TypeID = 3 },
-                new Product { ID = 6, ProductName = "Keyboard2", Price = 500M, ImagePath = "ImagePath6", TypeID = 3 },
-                new Product { ID = 7, ProductName = "Mouse1", Price = 50M, ImagePath = "ImagePath7", TypeID = 4 },
-                new Product { ID = 8, ProductName = "Mouse2", Price = 100M, ImagePath = "ImagePath8", TypeID = 4 },
-                new Product { ID = 9, ProductName = "Cooling1", Price = 200M, ImagePath = "ImagePath9", TypeID = 5 },
-                new Product { ID = 10, ProductName = "Cooling2", Price = 350.50M, ImagePath = "ImagePath10", TypeID = 5 });
+                new Product { ID = 1, ProductName = "GPU1", Price = 1100.75M, Description = "Description for product 1", ImagePath = "ImagePath1", TypeID = 1 },
+                new Product { ID = 2, ProductName = "GPU2", Price = 1234.55M, Description = "Description for product 2", ImagePath = "ImagePath2", TypeID = 1 },
+                new Product { ID = 3, ProductName = "CPU1", Price = 8934.10M, Description = "Description for product 3", ImagePath = "ImagePath3", TypeID = 2 },
+                new Product { ID = 4, ProductName = "CPU2", Price = 9313M, Description = "Description for product 4", ImagePath = "ImagePath4", TypeID = 2 },
+                new Product { ID = 5, ProductName = "Keyboard1", Price = 110.75M, Description = "Description for product 5", ImagePath = "ImagePath5", TypeID = 3 },
+                new Product { ID = 6, ProductName = "Keyboard2", Price = 500M, Description = "Description for product 6", ImagePath = "ImagePath6", TypeID = 3 },
+                new Product { ID = 7, ProductName = "Mouse1", Price = 50M, Description = "Description for product 7", ImagePath = "ImagePath7", TypeID = 4 },
+                new Product { ID = 8, ProductName = "Mouse2", Price = 100M, Description = "Description for product 8", ImagePath = "ImagePath8", TypeID = 4 },
+                new Product { ID = 9, ProductName = "Cooling1", Price = 200M, Description = "Description for product 9", ImagePath = "ImagePath9", TypeID = 5 },
+                new Product { ID = 10, ProductName = "Cooling2", Price = 350.50M, Description = "Description for product 10", ImagePath = "ImagePath10", TypeID = 5 });
 
             modelBuilder.Entity<User>().HasData(
                 new User { ID = 1, FirstName = "Bodil", LastName = "Bodilsen", Mail = "Bodil@Bodilsen.com", Address = "RandomAdress1", ZipCode = "1000", Phone = "88888888", Username = "Bodil", Password = "Bodil123456", RoleId = 1 },

@@ -23,10 +23,31 @@ namespace EShop.Pages
         public int Count { get; set; }
         public int PageSize { get; set; } = 5; //TODO : Change pagesize
         public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+        [BindProperty]
+        public string Search { get; set; }
 
         public void OnGet()
         {
             Products = _product.GetAllProductsWithPagination(CurrentPage, PageSize);
+            Count = _product.GetCount();
+        }
+
+
+        public void OnPostSearch() 
+        { 
+            Products = _product.GetProductsByName(Search, CurrentPage, PageSize);
+            Count = _product.GetCount();
+        }
+
+        public void OnPostHighToLow()
+        {
+            Products = _product.GetAllProductsWithPaginationOrderDesc(CurrentPage, PageSize);
+            Count = _product.GetCount();
+        }
+
+        public void OnPostLowToHigh()
+        {
+            Products = _product.GetAllProductsWithPaginationOrderAsc(CurrentPage, PageSize);
             Count = _product.GetCount();
         }
     }

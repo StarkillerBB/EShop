@@ -29,5 +29,23 @@ namespace ServiceLayer.Services
             List<Product> products = GetAllProducts();
             return products.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
+        public List<Product> GetAllProductsWithPaginationOrderAsc(int currentPage, int pageSize)
+        {
+            List<Product> products = GetAllProducts().OrderBy(x => x.Price).ToList();
+            return products.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+        }
+        public List<Product> GetAllProductsWithPaginationOrderDesc(int currentPage, int pageSize)
+        {
+            List<Product> products = GetAllProducts().OrderByDescending(x => x.Price).ToList();
+            return products.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+        }
+
+        public List<Product> GetProductsByName(string search, int currentPage, int pageSize)
+        {
+            var products = _eShopContext.Product.AsNoTracking();
+            products = search != null ? products.Where(x => x.SoftDelete == false).Where(x => x.ProductName.ToLower().Contains(search.ToLower())).Include(x => x.Type) : products;
+
+            return products.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+        }
     }
 }

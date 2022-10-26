@@ -3,7 +3,14 @@
 @{
     ViewData["Title"] = "Home page";
 }
-
+<div>
+    <form method="post">
+        <input type="search" placeholder="Search" class="form-control" asp-for="@Model.Search"/>
+        <input type="submit" value="Search" asp-page-handler="Search" class="btn btn-primary"/>
+        <input type="submit" value="Højste pris først" asp-page-handler="HighToLow" class="btn btn-primary"/>
+        <input type="submit" value="Lavste pris først" asp-page-handler="LowToHigh" class="btn btn-primary"/>
+    </form>
+</div>
 <div class="row">
     @foreach (var item in Model.Products)
     {

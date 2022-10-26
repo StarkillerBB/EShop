@@ -12,7 +12,9 @@ namespace ServiceLayer.Interface
         List<Product> GetAllProducts();
         Product GetProductById(int id);
         List<Product> GetAllProductsWithPagination(int currentPage, int pageSize);
-        List<Product> GetProductByNameSearch(string search);
+        List<Product> GetAllProductsWithPaginationOrderDesc(int currentPage, int pageSize);
+        List<Product> GetAllProductsWithPaginationOrderAsc(int currentPage, int pageSize);
+        List<Product> GetProductsByName(string search, int currentPage, int pageSize);
         int GetCount();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DataLayer;
 using DataLayer.Entities;
+using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -29,5 +30,7 @@ namespace ServiceLayer.Services
 
             return null;
         }
+
+        public User GetUserById(int id) => _eShopContext.User.Where(x => x.ID == id).FirstOrDefault();
     }
 }

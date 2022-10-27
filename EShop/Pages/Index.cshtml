@@ -5,23 +5,24 @@
 }
 <div>
     <form method="post">
-        <input type="search" placeholder="Search" class="form-control" asp-for="@Model.Search"/>
+        <input type="search" style="width: 20%; margin-bottom: 10px;" placeholder="Search" class="form-control" asp-for="@Model.Search"/>
         <input type="submit" value="Search" asp-page-handler="Search" class="btn btn-primary"/>
         <input type="submit" value="Højste pris først" asp-page-handler="HighToLow" class="btn btn-primary"/>
         <input type="submit" value="Lavste pris først" asp-page-handler="LowToHigh" class="btn btn-primary"/>
     </form>
 </div>
-<div class="row">
+<div class="row" style="margin-top: 10px;">
     @foreach (var item in Model.Products)
     {
-        <div class="col-4">
-            <form class="card" style="width: 18rem;">
-                <img class="card-img-top" src="@item.ImagePath" alt="Image coming soon">
+        <div class="col-4" style="margin-bottom: 10px;">
+            <form method="post" class="card" style="width: 18rem;">
+                <input type="hidden" value="@item.ID" asp-for="ProductID"/>
+                <img style="min-height:290px; max-height:300px;" class="card-img-top" src="@item.ImagePath" alt="Image coming soon">
                 <div class="card-body">
                     <h5 class="card-title">@item.ProductName</h5>
                     <p class="card-text">@item.Description</p>
                     <p class="card-text">@item.Price kr.</p>
-                    <input type="submit" value="Add to cart" class="btn btn-primary" />
+                    <input type="submit" value="Add to cart" class="btn btn-primary" asp-page-handler="AddToCart"/>
                 </div>
             </form>
         </div>

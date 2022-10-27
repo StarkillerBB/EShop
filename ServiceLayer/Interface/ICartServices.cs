@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Interface
 {
-    public interface IUserServices
+    public interface ICartServices
     {
-        User GetUserLogin(string username, string password);
-        User GetUserById(int id);
+        int CountUserCart(int id);
+        List<Cart> GetUserProducts(int userID);
+        Cart GetUserProductById(int id);
+        void AddCart(Cart cart);
     }
 }

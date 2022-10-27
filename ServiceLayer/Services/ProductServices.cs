@@ -47,5 +47,7 @@ namespace ServiceLayer.Services
 
             return products.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
         }
+
+        
     }
 }

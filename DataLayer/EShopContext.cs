@@ -53,9 +53,9 @@ namespace DataLayer
                 new Types { ID = 5, TypeName = "Cooling" });
 
             modelBuilder.Entity<Product>().HasData(
-                new Product { ID = 1, ProductName = "GPU1", Price = 1100.75M, Description = "Description for product 1", ImagePath = "ImagePath1", TypeID = 1 },
-                new Product { ID = 2, ProductName = "GPU2", Price = 1234.55M, Description = "Description for product 2", ImagePath = "ImagePath2", TypeID = 1 },
-                new Product { ID = 3, ProductName = "CPU1", Price = 8934.10M, Description = "Description for product 3", ImagePath = "ImagePath3", TypeID = 2 },
+                new Product { ID = 1, ProductName = "GPU1", Price = 1100.75M, Description = "Description for product 1", ImagePath = "Images/ImagePath3.jpg", TypeID = 1 },
+                new Product { ID = 2, ProductName = "GPU2", Price = 1234.55M, Description = "Description for product 2", ImagePath = "Images/ImagePath2.jpg", TypeID = 1 },
+                new Product { ID = 3, ProductName = "CPU1", Price = 8934.10M, Description = "Description for product 3", ImagePath = "Images/ImagePath1.jpg", TypeID = 2 },
                 new Product { ID = 4, ProductName = "CPU2", Price = 9313M, Description = "Description for product 4", ImagePath = "ImagePath4", TypeID = 2 },
                 new Product { ID = 5, ProductName = "Keyboard1", Price = 110.75M, Description = "Description for product 5", ImagePath = "ImagePath5", TypeID = 3 },
                 new Product { ID = 6, ProductName = "Keyboard2", Price = 500M, Description = "Description for product 6", ImagePath = "ImagePath6", TypeID = 3 },

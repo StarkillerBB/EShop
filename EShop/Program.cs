@@ -11,6 +11,7 @@ builder.Services.AddScoped<IGenericServices, GenericServices>();
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IRepo, Repo>();
+builder.Services.AddScoped<ICartServices, CartServices>();
 
 builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(10));
 

@@ -11,15 +11,20 @@ namespace Web_API.Controllers
     {
 
         private readonly IProductServices _product;
-        public CRUDController(IProductServices product)
+        private readonly IGenericServices _generic;
+        public CRUDController(IProductServices product, IGenericServices generic)
         {
             _product = product;
+            _generic = generic;
         }
         [HttpGet]
-        public IList<Product> GetAllProducts()
-        {
+        public List<Product> GetAllProducts() => _product.GetAllProducts();
 
-            return _product.GetAllProducts();
+        [HttpPut]
+        public string Edit(Product product)
+        {
+            _generic.UpdateEntry(product);
+            return "Object opdateret.";
         }
     }
 }

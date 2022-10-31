@@ -18,8 +18,9 @@ namespace DataLayer.Entities
         public bool SoftDelete { get; set; }
 
         public int TypeID { get; set; }
-        public Types Type { get; set; }
-        public List<Cart> Carts { get; set; }
+        
+        public Types? Type { get; set; }
+        public List<Cart>? Carts { get; set; }
         
     }
 }

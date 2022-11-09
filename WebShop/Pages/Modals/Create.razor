@@ -1,0 +1,21 @@
+﻿@page "/Item/Create"
+@inject IProductApiService _Product
+
+<ItemFormComponent></ItemFormComponent>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        BlazoredModal.SetTitle("Create Product");
+        base.OnInitialized();
+    }
+
+    public async void CreateProduct(Product product)
+    {
+        _Product.CreateProductAsync(product);
+
+        await BlazoredModal.CloseAsync();
+    }
+}

@@ -15,6 +15,7 @@ namespace ServiceLayer.Interface
         List<Product> GetAllProductsWithPaginationOrderDesc(int currentPage, int pageSize);
         List<Product> GetAllProductsWithPaginationOrderAsc(int currentPage, int pageSize);
         List<Product> GetProductsByName(string search, int currentPage, int pageSize);
+        List<Product> GetProductByNameSearch(string search);
         int GetCount();
     }
 }

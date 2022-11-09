@@ -1,0 +1,36 @@
+﻿@page "/"
+@inject IProductApiService _ProductService
+
+<PageTitle>Index</PageTitle>
+<EditForm>
+
+</EditForm>
+<div class="row row-cols-3">
+    @foreach (var item in Products)
+    {
+        <div class="card w-25">
+            <img class="card-img-top" src="@item.ImagePath" alt="Image coming soon.">
+            <div class="card-body">
+                <h5 class="card-title">@item.ProductName</h5>
+                <p class="card-text">@item.Description</p>
+                <p class="card-text">Pris: @item.Price dkk.</p>
+            </div>
+            <div class="card-footer">
+                <button>Add to cart</button>
+                <button>See product</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
+    private List<Product>? Products { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await _ProductService.GetAllProductsAsync();
+    }
+
+}

@@ -1,0 +1,33 @@
+﻿@page "/counter"
+
+<PageTitle>Counter</PageTitle>
+
+<EditForm OnSubmit="DisplayName">
+    <input type="text" @bind="firstName" placeholder="First name"/>
+    <input type="text" @bind="lastName" placeholder="Last name"/>
+</EditForm>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+
+    public string firstName { get; set; }
+    public string lastName { get; set; }
+    public string FullName { get; set; }
+
+    private void DisplayName()
+    {
+        
+    }
+
+    private int currentCount = 0;
+    
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

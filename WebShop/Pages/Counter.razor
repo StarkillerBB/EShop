@@ -2,10 +2,7 @@
 
 <PageTitle>Counter</PageTitle>
 
-<EditForm OnSubmit="DisplayName">
-    <input type="text" @bind="firstName" placeholder="First name"/>
-    <input type="text" @bind="lastName" placeholder="Last name"/>
-</EditForm>
+<input type="text" placeholder="temp" />
 
 <h1>Counter</h1>
 
@@ -15,17 +12,8 @@
 
 @code {
 
-    public string firstName { get; set; }
-    public string lastName { get; set; }
-    public string FullName { get; set; }
-
-    private void DisplayName()
-    {
-        
-    }
-
     private int currentCount = 0;
-    
+
     private void IncrementCount()
     {
         currentCount++;

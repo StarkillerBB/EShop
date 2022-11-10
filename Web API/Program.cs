@@ -19,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IProductServices, ProductServices>();
 builder.Services.AddScoped<IGenericServices, GenericServices>();
+builder.Services.AddScoped<ITypeServices, TypeServices>();
 
 builder.Services.AddDbContext<EShopContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("EShopConn") ?? throw new InvalidOperationException("Connection string 'EShopConn' not found.")));

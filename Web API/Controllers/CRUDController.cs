@@ -12,10 +12,12 @@ namespace Web_API.Controllers
 
         private readonly IProductServices _product;
         private readonly IGenericServices _generic;
-        public CRUDController(IProductServices product, IGenericServices generic)
+        private readonly ITypeServices _type;
+        public CRUDController(IProductServices product, IGenericServices generic, ITypeServices type)
         {
             _product = product;
             _generic = generic;
+            _type = type;
         }
 
         /// <summary>
@@ -24,6 +26,14 @@ namespace Web_API.Controllers
         /// <returns></returns>
         [HttpGet]
         public List<Product> GetAllProducts() => _product.GetAllProducts();
+
+        [HttpGet]
+        [Route("Type")]
+        public List<Types> GetAllTypes() => _type.GetAllTypes();
+
+        [HttpGet]
+        [Route("SingleProduct/{id}")]
+        public Product GetProductById(int id) => _product.GetProductById(id);
 
         [HttpGet]
         [Route("item/{search}")]

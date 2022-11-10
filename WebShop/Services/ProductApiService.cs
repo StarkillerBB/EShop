@@ -24,6 +24,28 @@ namespace WebShop.Services
             return null;
         }
 
+        public async Task<List<Types>?> GetAllTypesAsync()
+        {
+            var items = await _HttpClient.GetFromJsonAsync<List<Types>>("api/CRUD/Type");
+
+            if (items != null)
+            {
+                return items;
+            }
+            return null;
+        }
+
+        public async Task<Product> GetSingleProductsAsync(int id)
+        {
+            var item = await _HttpClient.GetFromJsonAsync<Product>($"api/CRUD/SingleProduct/{id}");
+
+            if (item != null)
+            {
+                return item;
+            }
+            return null;
+        }
+
         public async void UpdateProductAsync(Product product)
         {
             await _HttpClient.PutAsJsonAsync<Product>("api/CRUD", product);

@@ -1,0 +1,57 @@
+﻿@page "/Item/Create"
+@inject IProductApiService _Product
+
+<EditForm Model="Product" OnValidSubmit="@CreateProduct">
+
+    <div class="form-group">
+        <label for="Name">Title</label>
+        <input @bind="Product.ProductName" type="text" class="form-control" id="Name" placeholder="Product Name" required>
+    </div>@*
+    <div class="form-group">
+        <label for="Image">Image</label>
+        <InputFile class="form-check w-100" id="Image" required />
+    </div>*@
+    <div class="form-group" style="margin-top: 10px;">
+        <label for="Price">Price</label>
+        <input class="form-control w-100" type="text" id="Price" @bind="Product.Price" placeholder="Price" required />
+    </div>
+    <div class="form-group" style="margin-top: 10px;">
+        <label for="Type">Type</label>
+        <select @bind="Product.TypeID" class="form-select">
+            @foreach (var item in Types)
+            {
+                <option value="@item.ID">@item.TypeName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group" style="margin-top: 10px;">
+        <label for="Description">Description</label>
+        <textarea class="form-control w-100" id="Description" @bind="Product.Description" placeholder="description" required />
+    </div>
+
+     
+
+    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Create</button>
+</EditForm>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    private Product Product { get; set; } = new();
+    private List<Types>? Types { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Types = await _Product.GetAllTypesAsync();
+
+        BlazoredModal.SetTitle("Create Product");
+        base.OnInitialized();
+    }
+
+    public async void CreateProduct()
+    {
+        _Product.CreateProductAsync(Product);
+
+        await BlazoredModal.CloseAsync();
+    }
+}

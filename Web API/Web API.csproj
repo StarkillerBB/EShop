@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ServiceLayer\ServiceLayer.csproj" />
+    <ProjectReference Include="..\WebShop\WebShop.csproj" />
   </ItemGroup>
 
 </Project>

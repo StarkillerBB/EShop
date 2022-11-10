@@ -16,9 +16,9 @@
                 <p class="card-text">Pris: @item.Price dkk.</p>
             </div>
             <div class="card-footer">
-                <button class="btn btn-success">See product</button>
-                <button class="btn btn-warning" @onclick="() => EditButton(item.ID)">Edit product</button>
-                <button class="btn btn-danger" @onclick="() => DeleteButton(item.ID)">Delete product</button>
+                <button class="btn btn-success" @onclick="() => ViewButton(item.ID)">View</button>
+                <button class="btn btn-warning" @onclick="() => EditButton(item.ID)">Edit</button>
+                <button class="btn btn-danger" @onclick="() => DeleteButton(item.ID)">Delete</button>
             </div>
         </div>
     }
@@ -87,6 +87,25 @@
         try
         {
             var modal = Modal.Show<WebShop.Pages.Edit>("Edit Product", parameters);
+            await modal.Result;
+        }
+        catch (Exception e)
+        {
+
+            throw;
+        }
+        await Reload();
+    }
+
+    public async Task ViewButton(int id)
+    {
+
+        ModalParameters parameters = new();
+
+        parameters.Add(nameof(WebShop.Pages.View.ID), id);
+        try
+        {
+            var modal = Modal.Show<WebShop.Pages.View>("View Product", parameters);
             await modal.Result;
         }
         catch (Exception e)

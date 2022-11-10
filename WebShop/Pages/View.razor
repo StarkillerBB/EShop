@@ -1,0 +1,39 @@
+﻿@page "/Item/View/{ID:int}"
+@inject IProductApiService _Product
+
+<div class="form-group">
+    <label>Title:</label>
+    <p>@Product.ProductName</p>
+</div>@*
+    <div class="form-group">
+    <label for="Image">Image</label>
+    <InputFile class="form-check w-100" id="Image" required />
+    </div>*@
+<div class="form-group" style="margin-top: 10px;">
+    <label for="Price">Price:</label>
+    <p>@Product.Price dkk.</p>
+</div>
+<div class="form-group" style="margin-top: 10px;">
+    <label for="Type">Image:</label>
+    <img class="card-img-top" src="@Product.ImagePath" alt="Image coming soon.">
+</div>
+<div class="form-group" style="margin-top: 10px;">
+    <label for="Description">Description</label>
+    <p>@Product.Description</p>
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    [Parameter] public int ID { get; set; }
+
+    private Product Product { get; set; } = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        Product = await _Product.GetSingleProductsAsync(ID);
+
+        BlazoredModal.SetTitle("View Product");
+        base.OnInitialized();
+    }
+}

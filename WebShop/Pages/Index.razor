@@ -3,7 +3,16 @@
 
 <PageTitle>Index</PageTitle>
 
-<button type="button" class="btn btn-primary" @onclick="CreateButton">Create Product</button>
+@if (IsBusy)
+{
+    <div id="LoadingElement">
+        <h2 id="LoadingText" class="text-center ">Loading</h2>
+    </div>
+}
+else
+{
+    <button type="button" class="btn btn-primary" @onclick="CreateButton">Create Product</button>
+}
 <div class="row row-cols-3">
 
     @foreach (var item in Products)
@@ -23,13 +32,6 @@
         </div>
     }
 </div>
-
-@if (IsBusy)
-{
-    <div id="LoadingElement">
-        <h2 id="LoadingText" class="text-center ">Loading</h2>
-    </div>
-}
 
 @code {
     [CascadingParameter] public IModalService Modal { get; set; } = default!;
